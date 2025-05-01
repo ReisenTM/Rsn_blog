@@ -1,3 +1,9 @@
 system:
   ip:
   port: 8080
+  env: dev # 一般用于gin的日志输出
+log:
+  app: blogx_server
+  dir: logs
+db:
+  
