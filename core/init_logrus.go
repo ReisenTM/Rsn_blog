@@ -88,5 +88,5 @@ func InitDefaultLogus() {
 	})
 
 	logrus.SetLevel(logrus.DebugLevel) // 默认最低等级为 Debug
-	logrus.Info("Logus 初始化完成")
+	logrus.Info("日志 初始化完成")
 }

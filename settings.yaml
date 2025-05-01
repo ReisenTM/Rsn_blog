@@ -6,4 +6,19 @@ log:
   app: blogx_server
   dir: logs
 db:
-  
+  user: root
+  password: root
+  host: 127.0.0.1
+  port: 5432
+  database: gvb_db
+  debug: false
+  source: postgres
+# 数据库配置一样，模拟多个数据库读写分离
+db1:
+  user: root
+  password: root
+  host: 127.0.0.1
+  port: 5432
+  database: gvb_db
+  debug: false
+  source: postgres

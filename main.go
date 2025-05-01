@@ -13,4 +13,5 @@ func main() {
 	flags.Parse()
 	global.Config = core.ReadConf()
 	core.InitDefaultLogus()
+	global.DB = core.InitDb()
 }
