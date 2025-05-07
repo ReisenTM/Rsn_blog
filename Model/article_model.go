@@ -1,5 +1,6 @@
 package Model
 
+// ArticleModel 文章表
 type ArticleModel struct {
 	ArticleID    uint      `gorm:"primary_key"`
 	Title        string    `gorm:"size:32" json:"title"`
