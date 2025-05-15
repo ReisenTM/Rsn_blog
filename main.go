@@ -4,6 +4,7 @@ import (
 	"blogX_server/core"
 	"blogX_server/flags"
 	"blogX_server/global"
+	"blogX_server/router"
 )
 
 //TIP <p>To run your code, right-click the code and select <b>Run</b>.</p> <p>Alternatively, click
@@ -14,7 +15,6 @@ func main() {
 	global.Config = core.ReadConf()
 	core.InitDefaultLogus()
 	global.DB = core.InitDb()
-
 	flags.Run()
-
+	router.Run()
 }

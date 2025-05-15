@@ -24,6 +24,7 @@ func InitIPDB() {
 	searcher = _searcher
 }
 
+// GetIPLoc 通过ip获取位置
 func GetIPLoc(ip string) (location string) {
 	//利用区间先快速判断是否是内网
 	if ipUtils.HasLocalIPAddr(ip) {
