@@ -1,11 +1,11 @@
 package log_api
 
 import (
-	"blogX_server/Model"
-	"blogX_server/Model/enum"
 	"blogX_server/common"
 	"blogX_server/common/resp"
 	"blogX_server/global"
+	"blogX_server/model"
+	"blogX_server/model/enum"
 	"blogX_server/service/log_service"
 	"fmt"
 	"github.com/gin-gonic/gin"
@@ -26,7 +26,7 @@ type LogListRequest struct {
 	ServiceName string        `form:"service_name"`
 }
 type LogListResponse struct {
-	Model.LogModel
+	model.LogModel
 	UserNickname string `json:"user_nickname"`
 	UserAvatar   string `json:"user_avatar"`
 }
@@ -39,7 +39,7 @@ func (LogApi) LogListView(c *gin.Context) {
 		resp.FailWithError(err, c)
 		return
 	}
-	list, count, err := common.ListQuery(Model.LogModel{
+	list, count, err := common.ListQuery(model.LogModel{
 		Type:        req.Type,
 		Level:       req.Level,
 		Title:       req.Title,
@@ -69,13 +69,13 @@ func (LogApi) LogListView(c *gin.Context) {
 
 // LogReadView 日志读取状态
 func (LogApi) LogReadView(c *gin.Context) {
-	var id Model.IDRequest
+	var id model.IDRequest
 	err := c.ShouldBindQuery(&id)
 	if err != nil {
 		resp.FailWithError(err, c)
 		return
 	}
-	var log Model.LogModel
+	var log model.LogModel
 	err = global.DB.Take(&log, id).Error
 	if err != nil {
 		resp.FailWithMsg("不存在的日志", c)
@@ -89,7 +89,7 @@ func (LogApi) LogReadView(c *gin.Context) {
 
 // LogDeleteView 删除日志
 func (LogApi) LogDeleteView(c *gin.Context) {
-	var IDlist Model.DeleteRequest
+	var IDlist model.DeleteRequest
 	err := c.ShouldBindJSON(&IDlist)
 	if err != nil {
 		resp.FailWithError(err, c)
@@ -100,7 +100,7 @@ func (LogApi) LogDeleteView(c *gin.Context) {
 	log.SetShowReq()
 	log.SetShowRes()
 
-	var logs []Model.LogModel
+	var logs []model.LogModel
 	err = global.DB.Where("id in (?)", IDlist.IDList).Find(&logs).Error
 	if err != nil {
 		resp.FailWithError(err, c)

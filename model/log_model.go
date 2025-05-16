@@ -1,6 +1,6 @@
-package Model
+package model
 
-import "blogX_server/Model/enum"
+import "blogX_server/model/enum"
 
 type LogModel struct {
 	Model

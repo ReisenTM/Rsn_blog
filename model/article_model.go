@@ -1,4 +1,4 @@
-package Model
+package model
 
 // ArticleModel 文章表
 type ArticleModel struct {

@@ -1,4 +1,4 @@
-package Model
+package model
 
 // GlobalNotificationModel 全局通知表
 type GlobalNotificationModel struct {

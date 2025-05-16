@@ -1,10 +1,10 @@
 package log_service
 
 import (
-	"blogX_server/Model"
-	"blogX_server/Model/enum"
 	"blogX_server/core"
 	"blogX_server/global"
+	"blogX_server/model"
+	"blogX_server/model/enum"
 	"bytes"
 	"encoding/json"
 	"fmt"
@@ -21,7 +21,7 @@ import (
 type ActionLog struct {
 	c             *gin.Context
 	level         enum.LogLevel
-	log           *Model.LogModel
+	log           *model.LogModel
 	title         string
 	reqBody       []byte
 	resBody       []byte
@@ -213,7 +213,7 @@ func (actionLog *ActionLog) Save() (id uint) {
 	//TODO:通过jwt获取username
 	//token := c.GetHeader("token")
 	UserID := uint(1)
-	log := Model.LogModel{
+	log := model.LogModel{
 		Type:     enum.LogActionTypes,
 		Title:    actionLog.title,
 		Content:  strings.Join(NewItemList, "\n"),

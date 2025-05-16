@@ -1,4 +1,4 @@
-package Model
+package model
 
 type BannerModel struct {
 	Model

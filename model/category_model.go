@@ -1,4 +1,4 @@
-package Model
+package model
 
 // CategoryModel 分类表
 type CategoryModel struct {

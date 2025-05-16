@@ -15,6 +15,9 @@ func main() {
 	global.Config = core.ReadConf()
 	core.InitDefaultLogus()
 	global.DB = core.InitDb()
+	global.Redis = core.InitRedis()
+
 	flags.Run()
+	//启动程序
 	router.Run()
 }

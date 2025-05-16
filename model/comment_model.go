@@ -1,4 +1,4 @@
-package Model
+package model
 
 type CommentModel struct {
 	Model

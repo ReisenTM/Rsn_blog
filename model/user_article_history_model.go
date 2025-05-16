@@ -1,4 +1,4 @@
-package Model
+package model
 
 type UserArticleHistoryModel struct {
 	Model

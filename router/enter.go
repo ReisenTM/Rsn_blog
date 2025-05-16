@@ -13,7 +13,7 @@ func Run() {
 
 	r := gin.Default()
 	//路径请求映射
-	r.Static("/uploads", "./test")
+	r.Static("/uploads", "uploads")
 	//创建路由组
 	nr := r.Group("/api")
 	//使用中间件

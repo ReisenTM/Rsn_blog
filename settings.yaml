@@ -3,9 +3,19 @@ system:
   port: 8080
   env: dev # 一般用于gin的日志输出
   gin_mode: release
+
+jwt:
+  expire: 240 # 过期时间
+  secret: xxx # 密钥
+  issuer: reisen # 签发人
 log:
   app: blogx_server
   dir: logs
+redis:
+  addr: 127.0.0.1:6379
+  password: 1234
+  db: 2
+
 db:
   user: root
   password: root

@@ -1,4 +1,4 @@
-package Model
+package model
 
 // UserLoginModel 用户登录表
 type UserLoginModel struct {

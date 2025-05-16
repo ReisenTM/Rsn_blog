@@ -1,9 +1,9 @@
 package log_service
 
 import (
-	"blogX_server/Model"
-	"blogX_server/Model/enum"
 	"blogX_server/global"
+	"blogX_server/model"
+	"blogX_server/model/enum"
 	"encoding/json"
 	"fmt"
 	e "github.com/pkg/errors"
@@ -15,7 +15,7 @@ import (
 
 // RuntimeLog 运行日志
 type RuntimeLog struct {
-	log             *Model.LogModel
+	log             *model.LogModel
 	title           string
 	itemList        []string //响应和请求中间的显示内容
 	level           enum.LogLevel
@@ -27,7 +27,7 @@ type RuntimeLog struct {
 func (r *RuntimeLog) Save() {
 	r.SetNowTime()
 	//判断创建还是更新
-	var log Model.LogModel
+	var log model.LogModel
 
 	//找到满足条件的记录
 	global.DB.Debug().Find(&log, fmt.Sprintf("service_name = ? and type = ? and created_at >= (now()-%s)",
@@ -45,7 +45,7 @@ func (r *RuntimeLog) Save() {
 		r.itemList = []string{}
 		return
 	}
-	err := global.DB.Create(&Model.LogModel{
+	err := global.DB.Create(&model.LogModel{
 		Type:        enum.LogRuntimeType,
 		Title:       r.title,
 		Content:     content,

@@ -1,25 +1,25 @@
 package flags
 
 import (
-	"blogX_server/Model"
 	"blogX_server/global"
+	"blogX_server/model"
 	"github.com/sirupsen/logrus"
 )
 
 func FlagDB() {
 	err := global.DB.AutoMigrate(
-		&Model.UserModel{},
-		&Model.UserConfModel{},
-		&Model.ArticleModel{},
-		&Model.CategoryModel{},
-		&Model.ArticleLikeModel{},
-		&Model.CollectModel{},
-		&Model.UserArticleCollectModel{},
-		&Model.UserArticleHistoryModel{},
-		&Model.CommentModel{},
-		&Model.BannerModel{},
-		&Model.LogModel{},
-		&Model.GlobalNotificationModel{},
+		&model.UserModel{},
+		&model.UserConfModel{},
+		&model.ArticleModel{},
+		&model.CategoryModel{},
+		&model.ArticleLikeModel{},
+		&model.CollectModel{},
+		&model.UserArticleCollectModel{},
+		&model.UserArticleHistoryModel{},
+		&model.CommentModel{},
+		&model.BannerModel{},
+		&model.LogModel{},
+		&model.GlobalNotificationModel{},
 	)
 	if err != nil {
 		logrus.Errorf("自动迁移失败 %s", err)
