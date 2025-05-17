@@ -39,9 +39,9 @@ site:
     beian: ""
     mode: 2
   project:
-    title: ""
+    title: Reisen的博客
     icon: ""
-    webPath: ""
+    webPath: ./uploads/index.html
   seo:
     keywords: ""
     description: ""
