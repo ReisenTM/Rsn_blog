@@ -1,21 +1,11 @@
 system:
-  ip:
+  ip: ""
   port: 8080
-  env: dev # 一般用于gin的日志输出
+  env: dev
   gin_mode: release
-
-jwt:
-  expire: 240 # 过期时间
-  secret: xxx # 密钥
-  issuer: reisen # 签发人
 log:
   app: blogx_server
   dir: logs
-redis:
-  addr: 127.0.0.1:6379
-  password: 1234
-  db: 2
-
 db:
   user: root
   password: root
@@ -24,7 +14,6 @@ db:
   database: gvb_db
   debug: false
   source: postgres
-# 数据库配置一样，模拟多个数据库读写分离
 db1:
   user: root
   password: root
@@ -33,3 +22,71 @@ db1:
   database: gvb_db
   debug: false
   source: postgres
+jwt:
+  expire: 240
+  secret: xxx
+  issuer: reisen
+redis:
+  addr: 127.0.0.1:6379
+  password: "1234"
+  db: 2
+site:
+  siteInfo:
+    title: reisen的个人博客
+    enTitle: ""
+    slogan: ""
+    logo: /xxx/xxx
+    beian: ""
+    mode: 2
+  project:
+    title: ""
+    icon: ""
+    webPath: ""
+  seo:
+    keywords: ""
+    description: ""
+  about:
+    siteDate: ""
+    qq: ""
+    wechat: ""
+    gitee: ""
+    bilibili: ""
+    github: ""
+  login:
+    qqLogin: false
+    usernamePwdLogin: false
+    emailLogin: false
+    captcha: false
+  indexRight:
+    list: []
+  article:
+    noExamine: false
+    commentLine: 0
+qiniu:
+  enable: false
+  accessKey: ""
+  secretKey: ""
+  bucket: ""
+  uri: ""
+  region: ""
+  prefix: ""
+  size: 0
+  expiry: 0
+ai:
+  enable: false
+  secretKey: ""
+  nickname: ""
+  avatar: ""
+  abstract: ""
+qq:
+  appID: "32131424"
+  appKey: adadwfea
+  redirect: http://xxx.xxx
+email:
+  domain: ""
+  port: 0
+  sendEmail: ""
+  authCode: ""
+  sendNickname: ""
+  ssl: false
+  tls: false

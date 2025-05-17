@@ -7,4 +7,9 @@ type Config struct {
 	DB1    DB     `yaml:"db1"`   //写库
 	Jwt    Jwt    `yaml:"jwt"`   //JWT
 	Redis  Redis  `yaml:"redis"` //redis
+	Site   Site   `yaml:"site"`
+	QiNiu  QiNiu  `yaml:"qiniu"`
+	AI     AI     `yaml:"ai"`
+	QQ     QQ     `yaml:"qq"`
+	Email  Email  `yaml:"email"`
 }

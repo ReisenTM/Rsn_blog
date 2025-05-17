@@ -69,7 +69,6 @@ func HasBlkList(token string) (banType BanType, ok bool) {
 	fmtedToken := fmt.Sprintf("token_black_%s", token)
 	isExist, err := global.Redis.Get(context.Background(), fmtedToken).Result()
 	if err != nil {
-		logrus.Errorf("Redis.Get err: %s", err.Error())
 		return
 	}
 	return ParseBanType(isExist), true

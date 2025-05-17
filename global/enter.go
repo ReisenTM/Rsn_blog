@@ -6,6 +6,9 @@ import (
 	"gorm.io/gorm"
 )
 
+// 后端版本号
+const Version = "1.0.1"
+
 // global用来为项目内的方法提供操作对象
 var (
 	Config *conf.Config  //全局配置

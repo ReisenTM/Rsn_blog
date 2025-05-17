@@ -8,8 +8,9 @@ import (
 
 func SiteRouter(r *gin.RouterGroup) {
 	app := api.App.SiteApi
-	r.GET("/site", app.SiteInfoView)
+	r.GET("/site/:name", app.SiteInfoView)
+	r.GET("site/qq_url", app.SiteInfoQQView)
 	//更新需要管理员权限
-	r.PUT("/site", middleware.AdminMiddleware, app.SiteUpdateView)
+	r.PUT("/site/:name", middleware.AdminMiddleware, app.SiteUpdateView)
 	return
 }
