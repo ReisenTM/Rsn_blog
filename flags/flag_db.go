@@ -19,7 +19,8 @@ func FlagDB() {
 		&model.CommentModel{},
 		&model.BannerModel{},
 		&model.LogModel{},
-		&model.GlobalNotificationModel{},
+		&model.GlobalNotificationModel{}, //全局通知表
+		&model.ImageModel{},              //图片表
 	)
 	if err != nil {
 		logrus.Errorf("自动迁移失败 %s", err)

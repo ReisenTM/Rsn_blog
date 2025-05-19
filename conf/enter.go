@@ -12,4 +12,5 @@ type Config struct {
 	AI     AI     `yaml:"ai"`
 	QQ     QQ     `yaml:"qq"`
 	Email  Email  `yaml:"email"`
+	Upload Upload `yaml:"upload"`
 }

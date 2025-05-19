@@ -90,3 +90,13 @@ email:
   sendNickname: ""
   ssl: false
   tls: false
+
+upload:
+  size: 3
+  whiteList:
+    - jpg
+    - jpeg
+    - png
+    - webp
+    - gif
+  uploadDir: images001

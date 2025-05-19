@@ -21,6 +21,7 @@ func Run() {
 
 	SiteRouter(nr)
 	LogRouter(nr)
+	ImageRouter(nr)
 
 	//启动路由监听
 	addr := global.Config.System.Addr()
