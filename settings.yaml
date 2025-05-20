@@ -64,9 +64,9 @@ site:
     commentLine: 0
 qiniu:
   enable: false
-  accessKey: ""
-  secretKey: ""
-  bucket: ""
+  accessKey: "Qb-SEUdl17NxVkyWXtZh8LOWcIcVeQvL4Z2eJfHP"
+  secretKey: "I6NDa02Wk5-rWRbiEVB74fH8sGKisTKICRvYhmrf"
+  bucket: "reisenn"
   uri: ""
   region: ""
   prefix: ""
