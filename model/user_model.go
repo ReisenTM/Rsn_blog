@@ -8,16 +8,16 @@ import (
 // UserModel 用户表
 type UserModel struct {
 	Model
-	Username  string        `json:"user_name" gorm:"size=36"` //用户名
-	Password  string        `json:"password" gorm:"size=128"` //密码
-	Nickname  string        `json:"nick_name" gorm:"size=36"` //昵称
-	Email     string        `json:"email" gorm:"size=128"`    //邮箱
-	Profile   string        `json:"profile" gorm:"size:255"`  //简介
-	RegSource int8          `json:"reg_source"`               //注册来源
-	CodeAge   int8          `json:"code_age"`                 //码龄
-	Avatar    string        `json:"avatar" gorm:"size:256"`   //头像(地址)
-	OpenID    string        `json:"open_id" gorm:"size:32"`   //第三方登录的唯一id
-	Role      enum.RoleType `json:"role" gorm:"size:4"`       //角色：1.管理员2.用户3.访客
+	Username  string                  `json:"user_name" gorm:"size=36"` //用户名
+	Password  string                  `json:"password" gorm:"size=128"` //密码
+	Nickname  string                  `json:"nick_name" gorm:"size=36"` //昵称
+	Email     string                  `json:"email" gorm:"size=128"`    //邮箱
+	Profile   string                  `json:"profile" gorm:"size:255"`  //简介
+	RegSource enum.RegisterSourceType `json:"reg_source"`               //注册来源
+	CodeAge   int8                    `json:"code_age"`                 //码龄
+	Avatar    string                  `json:"avatar" gorm:"size:256"`   //头像(地址)
+	OpenID    string                  `json:"open_id" gorm:"size:32"`   //第三方登录的唯一id
+	Role      enum.RoleType           `json:"role" gorm:"size:4"`       //角色：1.管理员2.用户3.访客
 }
 
 // UserConfModel 用户配置表

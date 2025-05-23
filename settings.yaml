@@ -55,7 +55,7 @@ site:
   login:
     qqLogin: false
     usernamePwdLogin: false
-    emailLogin: false
+    emailLogin: true
     captcha: false
   indexRight:
     list: []
@@ -83,11 +83,11 @@ qq:
   appKey: adadwfea
   redirect: http://xxx.xxx
 email:
-  domain: ""
-  port: 0
-  sendEmail: ""
-  authCode: ""
-  sendNickname: ""
+  domain: smtp.qq.com
+  port: 587
+  sendEmail: 3068272040@qq.com
+  authCode: swckpzzxifwjdeic
+  sendNickname: 铃仙的博客
   ssl: false
   tls: false
 
