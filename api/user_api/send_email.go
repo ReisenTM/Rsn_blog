@@ -4,6 +4,7 @@ import (
 	"blogX_server/common/resp"
 	"blogX_server/global"
 	"blogX_server/model"
+	"blogX_server/model/enum"
 	"blogX_server/service/email_service"
 	"blogX_server/utils/email_store"
 	"github.com/gin-gonic/gin"
@@ -14,11 +15,12 @@ import (
 const (
 	EmailRegType = iota + 1
 	EmailResetType
+	EmailBindType
 )
 
 type SendEmailRequest struct {
 	Email string `json:"email" binding:"required"`
-	Type  uint8  `json:"type" binding:"oneof=1 2"` //1注册 2 重置密码
+	Type  uint8  `json:"type" binding:"oneof=1 2 3"` //1注册 2 重置密码 3 绑定邮箱
 }
 
 type SendEmailResponse struct {
@@ -30,6 +32,10 @@ func (UserApi) SendEmailView(c *gin.Context) {
 	var cr SendEmailRequest
 	if err := c.ShouldBindJSON(&cr); err != nil {
 		resp.FailWithError(err, c)
+		return
+	}
+	if !global.Config.Site.Login.EmailLogin {
+		resp.FailWithMsg("站点未启用邮箱注册", c)
 		return
 	}
 	//生成验证码和id.存到验证码存储器中
@@ -53,9 +59,21 @@ func (UserApi) SendEmailView(c *gin.Context) {
 			resp.FailWithMsg("该邮箱不存在", c)
 			return
 		}
-		// 还必须得是邮箱注册的
-
+		// 还必须得是邮箱注册的或者已经绑定邮箱的
+		if !(user.RegSource == enum.RegisterEmailSourceType || user.Email != "") {
+			resp.FailWithMsg("仅支持邮箱注册或绑定邮箱的用户重置密码", c)
+			return
+		}
 		err = email_service.SendResetCode(cr.Email, code)
+	case EmailBindType:
+		var user model.UserModel
+		err = global.DB.Take(&user, "email = ?", cr.Email).Error
+		if err == nil {
+			resp.FailWithMsg("该邮箱已使用", c)
+			return
+		}
+		err = email_service.SendBindEmailCode(cr.Email, code)
+
 	}
 	if err != nil {
 		logrus.Errorf("邮件发送失败 %s", err)

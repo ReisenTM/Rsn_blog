@@ -32,16 +32,16 @@ redis:
   db: 2
 site:
   siteInfo:
-    title: reisen的个人博客
+    title: ""
     enTitle: ""
     slogan: ""
-    logo: /xxx/xxx
+    logo: ""
     beian: ""
     mode: 2
   project:
-    title: Reisen的博客
+    title: ""
     icon: ""
-    webPath: ./uploads/index.html
+    webPath: ""
   seo:
     keywords: ""
     description: ""
@@ -54,7 +54,7 @@ site:
     github: ""
   login:
     qqLogin: false
-    usernamePwdLogin: false
+    usernamePwdLogin: true
     emailLogin: true
     captcha: false
   indexRight:
@@ -64,9 +64,9 @@ site:
     commentLine: 0
 qiniu:
   enable: false
-  accessKey: "Qb-SEUdl17NxVkyWXtZh8LOWcIcVeQvL4Z2eJfHP"
-  secretKey: "I6NDa02Wk5-rWRbiEVB74fH8sGKisTKICRvYhmrf"
-  bucket: "reisenn"
+  accessKey: Qb-SEUdl17NxVkyWXtZh8LOWcIcVeQvL4Z2eJfHP
+  secretKey: I6NDa02Wk5-rWRbiEVB74fH8sGKisTKICRvYhmrf
+  bucket: reisenn
   uri: ""
   region: ""
   prefix: ""
@@ -90,13 +90,12 @@ email:
   sendNickname: 铃仙的博客
   ssl: false
   tls: false
-
 upload:
   size: 3
   whiteList:
-    - jpg
-    - jpeg
-    - png
-    - webp
-    - gif
+  - jpg
+  - jpeg
+  - png
+  - webp
+  - gif
   uploadDir: images001

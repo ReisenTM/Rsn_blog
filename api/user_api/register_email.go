@@ -5,6 +5,7 @@ import (
 	"blogX_server/global"
 	"blogX_server/model"
 	"blogX_server/model/enum"
+	"blogX_server/service/user_service"
 	"blogX_server/utils/jwts"
 	"blogX_server/utils/pwd"
 	"fmt"
@@ -14,8 +15,8 @@ import (
 )
 
 type RegisterEmailRequest struct {
-	EmailID   string `json:"email_id"`
-	EmailCode string `json:"email_code"`
+	EmailID   string `json:"email_id" binding:"required"`   //冗余
+	EmailCode string `json:"email_code" binding:"required"` //冗余
 	Password  string `json:"password"`
 }
 
@@ -59,5 +60,6 @@ func (UserApi) RegisterEmailView(c *gin.Context) {
 		resp.FailWithMsg("邮箱登录失败", c)
 		return
 	}
+	user_service.NewUserService(user).UserLogin(c)
 	resp.OkWithData(token, c)
 }

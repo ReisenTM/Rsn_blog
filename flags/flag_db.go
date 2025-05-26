@@ -6,6 +6,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+// FlagDB 迁移数据库
 func FlagDB() {
 	err := global.DB.AutoMigrate(
 		&model.UserModel{},
@@ -21,6 +22,7 @@ func FlagDB() {
 		&model.LogModel{},
 		&model.GlobalNotificationModel{}, //全局通知表
 		&model.ImageModel{},              //图片表
+		&model.UserLoginModel{},          //登录表
 	)
 	if err != nil {
 		logrus.Errorf("自动迁移失败 %s", err)
