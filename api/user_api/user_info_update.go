@@ -35,8 +35,6 @@ func (UserApi) UserInfoUpdateView(c *gin.Context) {
 	}
 	userMap := mps.StructToMap(cr, "s-u")
 	userConfMap := mps.StructToMap(cr, "s-u-c")
-	fmt.Println("userMap", userMap)
-	fmt.Println("userConfMap", userConfMap)
 
 	claims := jwts.GetClaims(c)
 

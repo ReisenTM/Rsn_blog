@@ -12,7 +12,7 @@ type DB struct {
 	Source   string `yaml:"source"` //数据库的源 pgsql mysql
 }
 
-// Dsn 拼接dsn
+// Dsn 拼接dsn 主库
 func (d *DB) Dsn() string {
 	//拼接dsn
 	dsn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s",

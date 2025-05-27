@@ -44,8 +44,8 @@ func InitDb() *gorm.DB {
 	if !dc1.Empty() {
 		//如果配置了读写库，就进行读写分离的注册
 		err := db.Use(dbresolver.Register(dbresolver.Config{
-			Sources:  []gorm.Dialector{postgres.Open(dc1.Dsn())}, //写
-			Replicas: []gorm.Dialector{postgres.Open(dc.Dsn())},  //读
+			Sources:  []gorm.Dialector{postgres.Open(dc.Dsn())},  //写
+			Replicas: []gorm.Dialector{postgres.Open(dc1.Dsn())}, //读
 			Policy:   dbresolver.RandomPolicy{},
 		}))
 		if err != nil {

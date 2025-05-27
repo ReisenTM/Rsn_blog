@@ -7,21 +7,25 @@ log:
   app: blogx_server
   dir: logs
 db:
-  user: root
-  password: root
-  host: 127.0.0.1
+  user: postgres
+  password: 123456
+  host: 10.211.55.4
   port: 5432
-  database: gvb_db
+  database: blogx
   debug: false
   source: postgres
 db1:
-  user: root
-  password: root
-  host: 127.0.0.1
+  user: postgres
+  password: 123456
+  host: 10.211.55.4
   port: 5432
-  database: gvb_db
+  database: blogx
   debug: false
   source: postgres
+es:
+  url: http://10.211.55.4:9200
+  username:
+  password:
 jwt:
   expire: 240
   secret: xxx
