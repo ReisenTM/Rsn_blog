@@ -17,7 +17,7 @@ type FlagUser struct {
 // Create 创建用户
 func (FlagUser) Create() {
 	var role enum.RoleType
-	fmt.Println("选择角色     1 超级管理员   2 普通用户   3 访客")
+	fmt.Println("选择角色     1 普通用户  2  超级管理员    3 访客")
 	_, err := fmt.Scan(&role)
 	if err != nil {
 		logrus.Errorf("角色输入错误 %s", err)
@@ -59,7 +59,7 @@ func (FlagUser) Create() {
 		fmt.Println("两次密码不一致")
 		return
 	}
-	
+
 	hashPwd, _ := pwd.GenerateFromPassword(string(password))
 	// 创建用户
 	err = global.DB.Create(&model.UserModel{

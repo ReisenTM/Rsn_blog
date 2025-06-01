@@ -3,7 +3,7 @@ package core
 import (
 	"blogX_server/global"
 	"github.com/sirupsen/logrus"
-	"gorm.io/driver/postgres"
+	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 	"gorm.io/plugin/dbresolver"
@@ -11,9 +11,11 @@ import (
 )
 
 func InitDb() *gorm.DB {
-	dc := global.Config.DB
-	dc1 := global.Config.DB1
-
+	if len(global.Config.DB) <= 0 {
+		logrus.Errorf("未配置数据库")
+		return nil
+	}
+	dc := global.Config.DB[0] //0库主库：写 ，其余从库 读
 	if dc.Host == "" {
 		logrus.Warnln("未配置数据库连接地址")
 	}
@@ -27,7 +29,7 @@ func InitDb() *gorm.DB {
 		//正常模式下仅显示错误
 		myLogger = logger.Default.LogMode(logger.Error)
 	}
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
 		DisableForeignKeyConstraintWhenMigrating: true, //不生成外键约束
 		Logger:                                   myLogger,
 	})
@@ -40,17 +42,22 @@ func InitDb() *gorm.DB {
 	sqlDB.SetMaxOpenConns(100) //最多可容纳
 	sqlDB.SetConnMaxLifetime(time.Hour)
 	logrus.Infoln("数据库 连接成功")
-
-	if !dc1.Empty() {
+	if len(global.Config.DB) > 1 {
+		//如果配置了从库
 		//如果配置了读写库，就进行读写分离的注册
+		var DBlist []gorm.Dialector
+		for _, d := range global.Config.DB[1:] {
+			DBlist = append(DBlist, mysql.Open(d.Dsn()))
+		}
 		err := db.Use(dbresolver.Register(dbresolver.Config{
-			Sources:  []gorm.Dialector{postgres.Open(dc.Dsn())},  //写
-			Replicas: []gorm.Dialector{postgres.Open(dc1.Dsn())}, //读
+			Sources:  []gorm.Dialector{mysql.Open(dc.Dsn())}, //写
+			Replicas: DBlist,                                 //读
 			Policy:   dbresolver.RandomPolicy{},
 		}))
 		if err != nil {
 			logrus.Fatal("读写分离配置错误\n", err)
 		}
 	}
+
 	return db
 }

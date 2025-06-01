@@ -30,8 +30,9 @@ func (r *RuntimeLog) Save() {
 	var log model.LogModel
 
 	//找到满足条件的记录
-	global.DB.Debug().Find(&log, fmt.Sprintf("service_name = ? and type = ? and created_at >= (now()-%s)",
-		r.runtimeDateType.GetSqlTime()), r.serviceName, enum.LogRuntimeType)
+	global.DB.Find(&log,
+		fmt.Sprintf("service_name = ? and log_type = ? and created_at >= date_sub(now(), %s)",
+			r.runtimeDateType.GetSqlTime()), r.serviceName, enum.LogRuntimeType)
 	content := strings.Join(r.itemList, "\n")
 	if log.ID != 0 {
 		// 更新
