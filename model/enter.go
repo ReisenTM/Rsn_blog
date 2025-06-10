@@ -8,10 +8,12 @@ type Model struct {
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
+// IDRequest 用于指定请求(文章）
 type IDRequest struct {
 	ID uint `json:"id" form:"id" uri:"id"`
 }
 
-type DeleteRequest struct {
+// RemoveRequest 用于批量删除请求
+type RemoveRequest struct {
 	IDList []uint `json:"id_list"`
 }

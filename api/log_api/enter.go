@@ -89,7 +89,7 @@ func (LogApi) LogReadView(c *gin.Context) {
 
 // LogDeleteView 删除日志
 func (LogApi) LogDeleteView(c *gin.Context) {
-	var IDlist model.DeleteRequest
+	var IDlist model.RemoveRequest
 	err := c.ShouldBindJSON(&IDlist)
 	if err != nil {
 		resp.FailWithError(err, c)

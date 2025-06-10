@@ -46,7 +46,7 @@ type Options struct {
 // ListQuery 列表查询
 func ListQuery[T any](model T, option Options) (list []T, count int, err error) {
 	//基础查询
-	query := global.DB.Model(model)
+	query := global.DB.Model(model).Where(model)
 	//日志
 	if option.Debug {
 		query = query.Debug()

@@ -64,7 +64,7 @@ func (BannerApi) BannerListCreateView(c *gin.Context) {
 
 // BannerRemoveView 删除封面
 func (BannerApi) BannerRemoveView(c *gin.Context) {
-	var rm model.DeleteRequest
+	var rm model.RemoveRequest
 	err := c.ShouldBindJSON(&rm)
 	if err != nil {
 		resp.FailWithError(err, c)

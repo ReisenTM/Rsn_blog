@@ -13,7 +13,6 @@ func FlagDB() {
 		&model.UserConfModel{},
 		&model.ArticleModel{},
 		&model.CategoryModel{},
-		&model.ArticleLikeModel{},
 		&model.CollectModel{},
 		&model.UserArticleCollectModel{},
 		&model.UserArticleHistoryModel{},
@@ -23,6 +22,8 @@ func FlagDB() {
 		&model.GlobalNotificationModel{}, //全局通知表
 		&model.ImageModel{},              //图片表
 		&model.UserLoginModel{},          //登录表
+		&model.UserTopArticleModel{},     //置顶文章
+		&model.UserArticleFavorModel{},   //点赞表
 	)
 	if err != nil {
 		logrus.Errorf("自动迁移失败 %s", err)

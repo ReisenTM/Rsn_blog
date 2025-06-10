@@ -42,7 +42,7 @@ func (ImageApi) ImageListView(c *gin.Context) {
 
 // ImageRemoveView 通过id列表删除对应记录
 func (ImageApi) ImageRemoveView(c *gin.Context) {
-	var cr model.DeleteRequest
+	var cr model.RemoveRequest
 	err := c.ShouldBindJSON(&cr)
 	if err != nil {
 		resp.FailWithError(err, c)
