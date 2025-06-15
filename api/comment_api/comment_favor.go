@@ -5,6 +5,7 @@ import (
 	"blogX_server/global"
 	"blogX_server/middleware"
 	"blogX_server/model"
+	"blogX_server/service/message_service"
 	"blogX_server/service/redis_service/redis_comment"
 	"blogX_server/utils/jwts"
 	"github.com/gin-gonic/gin"
@@ -36,7 +37,8 @@ func (CommentApi) CommentFavorView(c *gin.Context) {
 			return
 		}
 		redis_comment.SetCacheFavor(cr.ID, 1)
-		//TODO:发消息给被点赞用户
+		// 给这个评论的拥有人发消息
+		message_service.InsertFavorCommentMessage(mod)
 
 		resp.OKWithMsg("点赞成功", c)
 		return

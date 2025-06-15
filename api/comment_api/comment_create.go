@@ -6,6 +6,7 @@ import (
 	"blogX_server/middleware"
 	"blogX_server/model"
 	"blogX_server/service/comment_service"
+	"blogX_server/service/message_service"
 	"blogX_server/service/redis_service/redis_article"
 	"blogX_server/service/redis_service/redis_comment"
 	"blogX_server/utils/jwts"
@@ -52,7 +53,10 @@ func (CommentApi) CommentCreateView(c *gin.Context) {
 				//回复数+1
 				redis_comment.SetCacheReply(commentModel.ID, 1)
 			}
-			//TODO:给被回复的人发信息
+			// 给父评论的用有人发消息
+			defer func() {
+				go message_service.InsertReplyMessage(mod)
+			}()
 
 		}
 	}

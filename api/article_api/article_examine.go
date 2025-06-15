@@ -6,6 +6,8 @@ import (
 	"blogX_server/middleware"
 	"blogX_server/model"
 	"blogX_server/model/enum"
+	"blogX_server/service/message_service"
+	"fmt"
 	"github.com/gin-gonic/gin"
 )
 
@@ -26,12 +28,12 @@ func (ArticleApi) ArticleExamineView(c *gin.Context) {
 	//更新审核状态
 	global.DB.Model(&article).Update("status", cr.Status)
 
-	//TODO:给发布者结果通知
 	switch cr.Status {
 	case enum.ArticleStatusPublished:
+		message_service.InsertSystemMessage(article.UserID, "管理员审核了你的文章", "审核成功", article.Title, fmt.Sprintf("/article/%d", article.ID))
 
 	case enum.ArticleStatusFail:
-
+		message_service.InsertSystemMessage(article.UserID, "管理员审核了你的文章", fmt.Sprintf("审核失败 失败原因：%s", cr.Msg), "", "")
 	}
 	resp.OKWithMsg("文章审核通过", c)
 }

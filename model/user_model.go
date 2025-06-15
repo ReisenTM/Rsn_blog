@@ -18,7 +18,7 @@ type UserModel struct {
 	RegSource     enum.RegisterSourceType `json:"reg_source"`               //注册来源
 	Avatar        string                  `json:"avatar" gorm:"size:256"`   //头像(地址)
 	OpenID        string                  `json:"open_id" gorm:"size:32"`   //第三方登录的唯一id
-	Role          enum.RoleType           `json:"role" gorm:"size:4"`       //角色：1.管理员2.用户3.访客
+	Role          enum.RoleType           `json:"role" gorm:"size:4"`       //角色：1.用户2.管理员3.访客
 	UserConfModel *UserConfModel          `gorm:"foreignKey:UserID"  json:"-"`
 	IP            string                  `json:"ip"`
 	Region        string                  `json:"region"` //ip归属地

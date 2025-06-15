@@ -42,7 +42,7 @@ func AdminMiddleware(c *gin.Context) {
 
 	if claims.Role != enum.RoleAdminType {
 		//不是管理员
-		resp.OKWithMsg("权限错误", c)
+		resp.FailWithMsg("权限错误", c)
 		c.Abort()
 		return
 	}

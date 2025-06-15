@@ -6,6 +6,7 @@ import (
 	"blogX_server/middleware"
 	"blogX_server/model"
 	"blogX_server/model/enum"
+	"blogX_server/service/message_service"
 	"blogX_server/service/redis_service/redis_article"
 	"blogX_server/utils/jwts"
 	"github.com/gin-gonic/gin"
@@ -34,7 +35,9 @@ func (ArticleApi) ArticleFavorView(c *gin.Context) {
 			resp.FailWithMsg("点赞失败", c)
 			return
 		}
-		// TODO:给文章拥有者发消息
+		//给文章拥有者发消息
+		message_service.InsertFavorArticleMessage(m)
+
 		redis_article.SetCacheFavor(cr.ID, true)
 		resp.OKWithMsg("点赞成功", c)
 		return

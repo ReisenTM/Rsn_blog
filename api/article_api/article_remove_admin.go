@@ -5,6 +5,7 @@ import (
 	"blogX_server/global"
 	"blogX_server/middleware"
 	"blogX_server/model"
+	"blogX_server/service/message_service"
 	"fmt"
 	"github.com/gin-gonic/gin"
 )
@@ -19,9 +20,11 @@ func (ArticleApi) ArticleRemoveAdminView(c *gin.Context) {
 		return
 	}
 	if len(articles) > 0 {
-		//for _, model := range articles {
-		//TODO:给被删除的发通知[通知]
-		//}
+		for _, model := range articles {
+			//给被删除的发通知[通知]
+			message_service.InsertSystemMessage(model.UserID, "管理员删除了你的文章", fmt.Sprintf("%s 内容不符合社区规范", model.Title), "", "")
+
+		}
 		err := global.DB.Delete(&articles).Error
 		if err != nil {
 			resp.FailWithMsg("删除失败", c)

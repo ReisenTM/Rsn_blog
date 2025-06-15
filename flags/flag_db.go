@@ -8,6 +8,7 @@ import (
 
 // FlagDB 迁移数据库
 func FlagDB() {
+
 	err := global.DB.AutoMigrate(
 		&model.UserModel{},
 		&model.UserConfModel{},
@@ -25,6 +26,8 @@ func FlagDB() {
 		&model.UserTopArticleModel{},     //置顶文章
 		&model.UserArticleFavorModel{},   //点赞表
 		&model.UserCommentFavorModel{},   //评论点赞表
+		&model.MessageModel{},            //消息表
+		&model.UserMessageConfModel{},    //消息设置表
 	)
 	if err != nil {
 		logrus.Errorf("自动迁移失败 %s", err)

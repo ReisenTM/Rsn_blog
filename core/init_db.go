@@ -6,7 +6,6 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
-	"gorm.io/plugin/dbresolver"
 	"time"
 )
 
@@ -42,22 +41,22 @@ func InitDb() *gorm.DB {
 	sqlDB.SetMaxOpenConns(100) //最多可容纳
 	sqlDB.SetConnMaxLifetime(time.Hour)
 	logrus.Infoln("数据库 连接成功")
-	if len(global.Config.DB) > 1 {
-		//如果配置了从库
-		//如果配置了读写库，就进行读写分离的注册
-		var DBlist []gorm.Dialector
-		for _, d := range global.Config.DB[1:] {
-			DBlist = append(DBlist, mysql.Open(d.Dsn()))
-		}
-		err := db.Use(dbresolver.Register(dbresolver.Config{
-			Sources:  []gorm.Dialector{mysql.Open(dc.Dsn())}, //写
-			Replicas: DBlist,                                 //读
-			Policy:   dbresolver.RandomPolicy{},
-		}))
-		if err != nil {
-			logrus.Fatal("读写分离配置错误\n", err)
-		}
-	}
+	//if len(global.Config.DB) > 1 {
+	//	//如果配置了从库
+	//	//如果配置了读写库，就进行读写分离的注册
+	//	var DBlist []gorm.Dialector
+	//	for _, d := range global.Config.DB[1:] {
+	//		DBlist = append(DBlist, mysql.Open(d.Dsn()))
+	//	}
+	//	err := db.Use(dbresolver.Register(dbresolver.Config{
+	//		Sources:  []gorm.Dialector{mysql.Open(dc.Dsn())}, //写
+	//		Replicas: DBlist,                                 //读
+	//		Policy:   dbresolver.RandomPolicy{},
+	//	}))
+	//	if err != nil {
+	//		logrus.Fatal("读写分离配置错误\n", err)
+	//	}
+	//}
 
 	return db
 }
