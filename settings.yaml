@@ -60,7 +60,7 @@ site:
     list: []
   article:
     noExamine: false
-    commentLine: 0
+    commentLine: 4
 qiniu:
   enable: false
   accessKey: Qb-SEUdl17NxVkyWXtZh8LOWcIcVeQvL4Z2eJfHP
@@ -108,16 +108,16 @@ river:
   enable: false
   server_id: 1001
   flavor: mysql
-  data_dir: ./var # 缓存文件位置
-  source: # 列表
-    - schema: blogx
-      tables:
-        - article_models
-  rule: #列表
-    - schema: blogx # 库名
-      table: article_models # 表名
-      index: article_index
-      type: _doc
-      field:
-        tag_list: tags,list
+  data_dir: ./var
+  source:
+  - schema: blogx
+    tables:
+    - article_models
+  rule:
+  - schema: blogx
+    table: article_models
+    index: article_index
+    type: _doc
+    field:
+      tag_list: tags,list
   bulk_size: 128

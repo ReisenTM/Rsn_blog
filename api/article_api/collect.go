@@ -100,7 +100,7 @@ func (ArticleApi) CollectListView(c *gin.Context) {
 			resp.FailWithMsg("用户不存在", c)
 			return
 		}
-
+		//如果用户设置了不公开
 		if !userConf.OpenCollection {
 			resp.FailWithMsg("用户未开启我的收藏", c)
 			return

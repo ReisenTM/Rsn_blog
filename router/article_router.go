@@ -21,8 +21,10 @@ func ArticleRouter(r *gin.RouterGroup) {
 	r.POST("article/examine", middleware.AdminMiddleware, middleware.BindJsonMiddleware[article_api.ArticleExamineRequest], app.ArticleExamineView)
 	//点赞
 	r.GET("article/favor/:id", middleware.AuthMiddleware, middleware.BindUriMiddleware[model.IDRequest], app.ArticleFavorView)
-	//加入收藏
+	//收藏夹-文章
 	r.POST("article/collect", middleware.AuthMiddleware, middleware.BindJsonMiddleware[article_api.ArticleCollectRequest], app.ArticleCollectView)
+	r.DELETE("article/collect", middleware.AuthMiddleware, middleware.BindJsonMiddleware[article_api.ArticleCollectPatchRemoveRequest], app.ArticleCollectPatchRemoveView)
+
 	//浏览记录
 	r.POST("article/history", middleware.BindJsonMiddleware[article_api.ArticleLookRequest], app.ArticleLookView)
 	r.GET("article/history", middleware.AuthMiddleware, middleware.BindQueryMiddleware[article_api.ArticleLookListRequest], app.ArticleLookListView)
@@ -35,5 +37,7 @@ func ArticleRouter(r *gin.RouterGroup) {
 	r.POST("collect", middleware.AuthMiddleware, middleware.BindJsonMiddleware[article_api.CollectCreateRequest], app.CollectCreateView)
 	r.GET("collect", middleware.BindQueryMiddleware[article_api.CollectListRequest], app.CollectListView)
 	r.DELETE("collect", middleware.AuthMiddleware, middleware.BindJsonMiddleware[model.RemoveRequest], app.CollectRemoveView)
-
+	//方便前端调用的Option接口
+	r.GET("category/options", middleware.AuthMiddleware, app.CategoryOptionsView)
+	r.GET("article/tag/options", middleware.AuthMiddleware, app.ArticleTagOptionsView)
 }

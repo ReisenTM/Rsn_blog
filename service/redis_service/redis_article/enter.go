@@ -75,7 +75,7 @@ func GetCacheComment(articleID uint) int {
 	return get(articleCacheComment, articleID)
 }
 
-// 取所有
+// GetAll 取所有
 func GetAll(cacheType articleCacheType) (mp map[uint]int) {
 	res, err := global.Redis.HGetAll(context.Background(), string(cacheType)).Result()
 	if err != nil {

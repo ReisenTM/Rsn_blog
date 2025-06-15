@@ -145,3 +145,15 @@ func (ArticleApi) CategoryRemoveView(c *gin.Context) {
 
 	resp.OKWithMsg(msg, c)
 }
+
+// CategoryOptionsView 分类列表，显示用户的所有分类，方便前端调用
+func (ArticleApi) CategoryOptionsView(c *gin.Context) {
+	claims := jwts.GetClaims(c)
+
+	var list []model.OptionsResponse[uint]
+	global.DB.Model(model.CategoryModel{}).Where("user_id = ?", claims.UserID).
+		Select("id as value", "title as label").Scan(&list)
+
+	resp.OkWithData(list, c)
+
+}

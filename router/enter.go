@@ -26,6 +26,7 @@ func Run() {
 	CaptchaRouter(nr)
 	UserRouter(nr)
 	ArticleRouter(nr)
+	CommentRouter(nr)
 	//启动路由监听
 	addr := global.Config.System.Addr()
 	err := r.Run(addr)

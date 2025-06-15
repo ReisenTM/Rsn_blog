@@ -8,6 +8,7 @@ import (
 	"blogX_server/model/enum"
 	"blogX_server/service/redis_service/redis_article"
 	"blogX_server/utils/jwts"
+	"fmt"
 	"github.com/gin-gonic/gin"
 )
 
@@ -16,6 +17,7 @@ type ArticleCollectRequest struct {
 	CollectID uint `json:"collect_id"`
 }
 
+// ArticleCollectView 收藏/取消收藏文章
 func (ArticleApi) ArticleCollectView(c *gin.Context) {
 	cr := middleware.GetBind[ArticleCollectRequest](c)
 
@@ -85,4 +87,28 @@ func (ArticleApi) ArticleCollectView(c *gin.Context) {
 	resp.OKWithMsg("取消收藏成功", c)
 	redis_article.SetCacheCollect(cr.ArticleID, false)
 	return
+}
+
+type ArticleCollectPatchRemoveRequest struct {
+	CollectID     uint   `json:"collect_id"`
+	ArticleIDList []uint `json:"article_list"`
+}
+
+// ArticleCollectPatchRemoveView 批量删除收藏夹内文章
+func (ArticleApi) ArticleCollectPatchRemoveView(c *gin.Context) {
+	var cr = middleware.GetBind[ArticleCollectPatchRemoveRequest](c)
+
+	claims := jwts.GetClaims(c)
+
+	var userCollectList []model.UserArticleCollectModel
+	global.DB.Find(&userCollectList, "collect_id = ? and article_id in ? and user_id = ?", cr.CollectID, cr.ArticleIDList, claims.UserID)
+
+	if len(userCollectList) > 0 {
+		global.DB.Delete(&userCollectList, "collect_id = ? and article_id in ? and user_id = ?", cr.CollectID, cr.ArticleIDList, claims.UserID)
+		for _, u := range cr.ArticleIDList {
+			redis_article.SetCacheCollect(u, false)
+		}
+	}
+
+	resp.OKWithMsg(fmt.Sprintf("批量移除文章%d篇", len(userCollectList)), c)
 }

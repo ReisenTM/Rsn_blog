@@ -6,6 +6,7 @@ import (
 	"time"
 )
 
+// Cron 库的作用类似于定时器 ，用来缓存-DB同步
 func Cron() {
 	timezone, _ := time.LoadLocation("Asia/Shanghai")
 	crontab := cron.New(cron.WithSeconds(), cron.WithLocation(timezone))

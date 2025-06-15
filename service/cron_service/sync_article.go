@@ -43,7 +43,7 @@ func SyncArticle() {
 	// 这里可能会有增量的数据
 	// 可以再获取一次
 	//collectMap := redis_article.GetAllCacheCollect()
-	//diggMap := redis_article.GetAllCacheDigg()
+	//favorMap := redis_article.GetAllCacheDigg()
 	//lookMap := redis_article.GetAllCacheLook()
 
 	// 走完之后清空掉缓存

@@ -20,7 +20,7 @@ type ArticleListRequest struct {
 	Type       int8               `form:"type" binding:"required,oneof=1 2 3"` //用户查别人，查自己，管理员查别人
 	CategoryID *uint              `form:"category_id"`
 	Status     enum.ArticleStatus `form:"status"`
-	CollectID  string             `form:"collect"`
+	CollectID  uint               `form:"collect"`
 }
 type ArticleListResponse struct {
 	model.ArticleModel
@@ -48,6 +48,20 @@ func (ArticleApi) ArticleListView(c *gin.Context) {
 		}
 		//只能查已发布的
 		cr.Status = enum.ArticleStatusPublished
+		if cr.CollectID != 0 {
+			//如果根据查收藏夹内文章
+			var userConf model.UserConfModel
+			err := global.DB.Take(&userConf, "user_id = ?", cr.UserID).Error
+			if err != nil {
+				resp.FailWithMsg("用户不存在", c)
+				return
+			}
+			//如果用户设置了不公开
+			if !userConf.OpenCollection {
+				resp.FailWithMsg("用户未开启我的收藏", c)
+				return
+			}
+		}
 	case 2:
 		// 查自己的
 		claims, err := jwts.ParseTokenByGin(c)

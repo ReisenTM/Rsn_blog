@@ -24,6 +24,7 @@ func FlagDB() {
 		&model.UserLoginModel{},          //登录表
 		&model.UserTopArticleModel{},     //置顶文章
 		&model.UserArticleFavorModel{},   //点赞表
+		&model.UserCommentFavorModel{},   //评论点赞表
 	)
 	if err != nil {
 		logrus.Errorf("自动迁移失败 %s", err)
