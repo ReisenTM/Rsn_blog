@@ -20,14 +20,16 @@ func FlagDB() {
 		&model.CommentModel{},
 		&model.BannerModel{},
 		&model.LogModel{},
-		&model.GlobalNotificationModel{}, //全局通知表
-		&model.ImageModel{},              //图片表
-		&model.UserLoginModel{},          //登录表
-		&model.UserTopArticleModel{},     //置顶文章
-		&model.UserArticleFavorModel{},   //点赞表
-		&model.UserCommentFavorModel{},   //评论点赞表
-		&model.MessageModel{},            //消息表
-		&model.UserMessageConfModel{},    //消息设置表
+		&model.GlobalNotificationModel{},     //全局通知表
+		&model.ImageModel{},                  //图片表
+		&model.UserLoginModel{},              //登录表
+		&model.UserTopArticleModel{},         //置顶文章
+		&model.UserArticleFavorModel{},       //点赞表
+		&model.UserCommentFavorModel{},       //评论点赞表
+		&model.MessageModel{},                //消息表
+		&model.UserMessageConfModel{},        //消息设置表
+		&model.GlobalNotificationModel{},     //用户全局消息表
+		&model.UserGlobalNotificationModel{}, //用户全局消息行为表
 	)
 	if err != nil {
 		logrus.Errorf("自动迁移失败 %s", err)

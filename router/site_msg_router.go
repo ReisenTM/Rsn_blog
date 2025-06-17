@@ -18,5 +18,6 @@ func SiteMsgRouter(r *gin.RouterGroup) {
 	r.POST("site_msg", middleware.AuthMiddleware, middleware.BindJsonMiddleware[site_msg_api.SiteMsgReadRequest], app.SiteMsgReadView)
 	//消息删除
 	r.DELETE("site_msg", middleware.AuthMiddleware, middleware.BindJsonMiddleware[site_msg_api.SiteMsgRemoveRequest], app.SiteMsgRemoveView)
-
+	//用户未读消息
+	r.GET("site_msg/user", middleware.AuthMiddleware, app.UserMsgView)
 }
