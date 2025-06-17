@@ -8,6 +8,7 @@ import (
 	"blogX_server/api/image_api"
 	"blogX_server/api/log_api"
 	"blogX_server/api/site_api"
+	"blogX_server/api/site_msg_api"
 	"blogX_server/api/user_api"
 )
 
@@ -20,6 +21,7 @@ type Api struct {
 	UserApi    user_api.UserApi
 	ArticleApi article_api.ArticleApi
 	CommentApi comment_api.CommentApi
+	SiteMsgApi site_msg_api.SiteMsgApi
 }
 
 // App 实例化 以供外部调用Api

@@ -8,6 +8,7 @@ import (
 // StructToMap 结构体转map
 func StructToMap(src any, typ string) (res map[string]interface{}) {
 	res = make(map[string]interface{})
+	//反射判断类型
 	content := reflect.ValueOf(src)
 	for i := 0; i < content.NumField(); i++ {
 		val := content.Field(i)

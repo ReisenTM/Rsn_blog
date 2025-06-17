@@ -27,6 +27,7 @@ func Run() {
 	UserRouter(nr)
 	ArticleRouter(nr)
 	CommentRouter(nr)
+	SiteMsgRouter(nr)
 	//启动路由监听
 	addr := global.Config.System.Addr()
 	err := r.Run(addr)

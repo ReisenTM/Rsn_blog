@@ -4,6 +4,7 @@ import "time"
 
 // UserArticleFavorModel 文章点赞表
 type UserArticleFavorModel struct {
+	Model
 	UserID       uint         `gorm:"uniqueIndex:idx_name" json:"user_id"`
 	ArticleID    uint         `gorm:"uniqueIndex:idx_name" json:"article_id"`
 	CreatedAt    time.Time    `json:"created_at"`                    //点赞时间

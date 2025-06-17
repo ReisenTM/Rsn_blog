@@ -4,6 +4,7 @@ import "time"
 
 // UserArticleCollectModel 用户个人收藏
 type UserArticleCollectModel struct {
+	Model
 	UserID       uint         `gorm:"uniqueIndex:idx_user_article" json:"user_id"`
 	UserModel    UserModel    `gorm:"foreignKey:UserID" json:"-"`
 	ArticleID    uint         `gorm:"uniqueIndex:idx_user_article" json:"article_id"`

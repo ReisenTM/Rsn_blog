@@ -6,6 +6,7 @@ import (
 	"blogX_server/middleware"
 	"blogX_server/model"
 	"blogX_server/model/enum"
+	"blogX_server/service/message_service"
 	"blogX_server/service/redis_service/redis_article"
 	"blogX_server/utils/jwts"
 	"fmt"
@@ -70,7 +71,7 @@ func (ArticleApi) ArticleCollectView(c *gin.Context) {
 			return
 		}
 		resp.OKWithMsg("收藏成功", c)
-
+		message_service.InsertCollectArticleMessage(mod)
 		redis_article.SetCacheCollect(cr.ArticleID, true)
 		return
 	}

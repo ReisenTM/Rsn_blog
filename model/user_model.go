@@ -27,6 +27,7 @@ type UserModel struct {
 // AfterCreate 随userModel一起创建
 func (u *UserModel) AfterCreate(tx *gorm.DB) error {
 	err := tx.Create(&UserConfModel{UserID: u.ID}).Error
+	err = tx.Create(&UserMessageConfModel{UserID: u.ID, OpenCommentMessage: true, OpenFavorMessage: true, OpenPrivateChat: true}).Error
 	return err
 }
 
