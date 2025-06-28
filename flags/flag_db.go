@@ -30,6 +30,7 @@ func FlagDB() {
 		&model.UserMessageConfModel{},        //消息设置表
 		&model.GlobalNotificationModel{},     //用户全局消息表
 		&model.UserGlobalNotificationModel{}, //用户全局消息行为表
+		&model.UserFocusModel{},              //好友关注列表
 	)
 	if err != nil {
 		logrus.Errorf("自动迁移失败 %s", err)

@@ -5,6 +5,7 @@ import (
 	"blogX_server/api/banner_api"
 	"blogX_server/api/captcha_api"
 	"blogX_server/api/comment_api"
+	"blogX_server/api/focus_api"
 	"blogX_server/api/global_notification_api"
 	"blogX_server/api/image_api"
 	"blogX_server/api/log_api"
@@ -24,6 +25,7 @@ type Api struct {
 	CommentApi            comment_api.CommentApi
 	SiteMsgApi            site_msg_api.SiteMsgApi
 	GlobalNotificationApi global_notification_api.GlobalNotificationApi
+	FocusApi              focus_api.FocusApi
 }
 
 // App 实例化 以供外部调用Api
