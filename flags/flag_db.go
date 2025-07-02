@@ -10,16 +10,16 @@ import (
 func FlagDB() {
 
 	err := global.DB.AutoMigrate(
-		&model.UserModel{},
-		&model.UserConfModel{},
-		&model.ArticleModel{},
-		&model.CategoryModel{},
-		&model.CollectModel{},
-		&model.UserArticleCollectModel{},
-		&model.UserArticleHistoryModel{},
-		&model.CommentModel{},
-		&model.BannerModel{},
-		&model.LogModel{},
+		&model.UserModel{},                   //用户表
+		&model.UserConfModel{},               //用户配置表
+		&model.ArticleModel{},                //文章表
+		&model.CategoryModel{},               //分类表
+		&model.CollectModel{},                //收藏夹表
+		&model.UserArticleCollectModel{},     //用户收藏关系表
+		&model.UserArticleHistoryModel{},     //浏览记录表
+		&model.CommentModel{},                //评论表
+		&model.BannerModel{},                 //封面表
+		&model.LogModel{},                    //日志表
 		&model.GlobalNotificationModel{},     //全局通知表
 		&model.ImageModel{},                  //图片表
 		&model.UserLoginModel{},              //登录表
@@ -30,7 +30,9 @@ func FlagDB() {
 		&model.UserMessageConfModel{},        //消息设置表
 		&model.GlobalNotificationModel{},     //用户全局消息表
 		&model.UserGlobalNotificationModel{}, //用户全局消息行为表
-		&model.UserFocusModel{},              //好友关注列表
+		&model.UserFocusModel{},              //好友关注表
+		&model.ChatModel{},                   //聊天信息表
+		&model.UserChatActionModel{},         //聊天行为表
 	)
 	if err != nil {
 		logrus.Errorf("自动迁移失败 %s", err)

@@ -14,7 +14,7 @@ func (c Code) String() string {
 	switch c {
 	case SuccessCode:
 		return "成功"
-	case FailureCode:
+	case FailValidCode:
 		return "失败"
 	}
 	return ""
@@ -22,7 +22,8 @@ func (c Code) String() string {
 
 const (
 	SuccessCode Code = iota
-	FailureCode
+	FailValidCode
+	FailServiceCodee
 )
 
 type Response struct {
@@ -59,7 +60,7 @@ func FailWithCode(code Code, c *gin.Context) {
 	response.Json(c)
 }
 func FailWithMsg(msg string, c *gin.Context) {
-	response := Response{Code: FailureCode, Msg: msg, Data: empty}
+	response := Response{Code: FailValidCode, Msg: msg, Data: empty}
 	response.Json(c)
 }
 func FailWithData(data any, c *gin.Context) {
@@ -72,6 +73,6 @@ func FailWithData(data any, c *gin.Context) {
 }
 func FailWithError(err error, c *gin.Context) {
 	data, msg := validate.ValidateError(err)
-	response := Response{Code: FailureCode, Msg: msg, Data: data}
+	response := Response{Code: FailValidCode, Msg: msg, Data: data}
 	response.Json(c)
 }

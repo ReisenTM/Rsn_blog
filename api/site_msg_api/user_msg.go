@@ -1,6 +1,7 @@
 package site_msg_api
 
 import (
+	"blogX_server/common"
 	"blogX_server/common/resp"
 	"blogX_server/global"
 	"blogX_server/model"
@@ -34,24 +35,26 @@ func (SiteMsgApi) UserMsgView(c *gin.Context) {
 			data.SystemMsgCount++
 		}
 	}
-	//TODO:找未读的私信
-	//var chatList []models.ChatModel
-	//// 接收人是我，而且这个消息未读
-	//global.DB.Find(&chatList, "rev_user_id = ?", claims.UserID)
-	//var chatIDList []uint
-	//for _, model := range chatList {
-	//	chatIDList = append(chatIDList, model.ID)
-	//}
-	//chatAcMap := common.ScanMapV2(model.UserChatActionModel{}, common.ScanOption{
-	//	Where: global.DB.Where("chat_id in ?", chatIDList),
-	//})
-	//for _, model := range chatList {
-	//	_, ok := chatAcMap[model.ID]
-	//	if !ok {
-	//		data.PrivateMsgCount++
-	//		continue
-	//	}
-	//}
+	//找未读的私信
+	var chatList []model.ChatModel
+	// 接收人是我，而且这个消息未读
+	global.DB.Find(&chatList, "rev_user_id = ?", claims.UserID)
+	var chatIDList []uint
+	for _, mod := range chatList {
+		chatIDList = append(chatIDList, mod.ID)
+	}
+	//查所有接受人是我的行为表,看是否有过删除或已读
+	chatAcMap := common.ScanMapV2(model.UserChatActionModel{}, common.ScanOption{
+		Where: global.DB.Where("chat_id in ?", chatIDList),
+		Key:   "ChatID",
+	})
+	for _, mod := range chatList {
+		_, ok := chatAcMap[mod.ID]
+		if !ok {
+			data.PrivateMsgCount++
+			continue
+		}
+	}
 	// 过滤掉删除的，只取未读的
 	var userReadMsgIDList []uint
 	global.DB.Model(model.UserGlobalNotificationModel{}).

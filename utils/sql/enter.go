@@ -2,6 +2,7 @@ package sql
 
 import "fmt"
 
+// ConvertSliceSql 把切片转为(xx,xx)的格式
 func ConvertSliceSql(list []uint) (s string) {
 	s += "("
 	for i, u := range list {

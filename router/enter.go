@@ -30,6 +30,7 @@ func Run() {
 	SiteMsgRouter(nr)
 	GlobalNotificationRouter(nr)
 	FocusRouter(nr)
+	ChatRouter(nr)
 	//启动路由监听
 	addr := global.Config.System.Addr()
 	err := r.Run(addr)
