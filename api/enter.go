@@ -10,6 +10,7 @@ import (
 	"blogX_server/api/global_notification_api"
 	"blogX_server/api/image_api"
 	"blogX_server/api/log_api"
+	"blogX_server/api/search_api"
 	"blogX_server/api/site_api"
 	"blogX_server/api/site_msg_api"
 	"blogX_server/api/user_api"
@@ -28,6 +29,7 @@ type Api struct {
 	GlobalNotificationApi global_notification_api.GlobalNotificationApi
 	FocusApi              focus_api.FocusApi
 	ChatApi               chat_api.ChatApi
+	SearchApi             search_api.SearchApi
 }
 
 // App 实例化 以供外部调用Api

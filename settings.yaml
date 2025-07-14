@@ -76,7 +76,7 @@ ai:
   secretKey: ""
   nickname: ""
   avatar: ""
-  abstract: ""
+  abstract: "Hello，我是你的AI小管家"
 qq:
   appID: ""
   appKey: ""
@@ -105,7 +105,7 @@ es:
   is_https: false
   enable: true
 river:
-  enable: false
+  enable: true
   server_id: 1001
   flavor: mysql
   data_dir: ./var
@@ -113,11 +113,17 @@ river:
   - schema: blogx
     tables:
     - article_models
+    - text_models
   rule:
   - schema: blogx
     table: article_models
     index: article_index
     type: _doc
     field:
-      tag_list: tags,list
+      tags: tags,list
+  - schema: blogx
+    table: text_models
+    index: text_indedx
+    type: _doc
+    field: { }
   bulk_size: 128

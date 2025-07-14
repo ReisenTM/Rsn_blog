@@ -4,6 +4,7 @@ import (
 	"blogX_server/global"
 	"blogX_server/model/ctype"
 	"blogX_server/model/enum"
+	"blogX_server/service/text_service"
 	_ "embed"
 	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"
@@ -64,4 +65,48 @@ func (a *ArticleModel) BeforeDelete(tx *gorm.DB) (err error) {
 	logrus.Infof("删除关联置顶 %d 条", len(topList))
 	logrus.Infof("删除关联浏览 %d 条", len(lookList))
 	return
+}
+func (a *ArticleModel) AfterCreate(tx *gorm.DB) (err error) {
+	// 创建文章之后的钩子函数
+	// 只有发布中的文章会放到全文搜索里面去
+	if a.Status != enum.ArticleStatusPublished {
+		return nil
+	}
+	textList := text_service.MdContentTransformation(a.ID, a.Title, a.Content)
+	var list []TextModel
+	if len(textList) == 0 {
+		return nil
+	}
+	//手动控制只设置关键字段，避免某些默认字段（如 ID、CreatedAt）被错误赋值
+	for _, model := range textList {
+		list = append(list, TextModel{
+			ArticleID: model.ArticleID,
+			Head:      model.Head,
+			Body:      model.Body,
+		})
+	}
+	err = tx.Create(&list).Error
+	if err != nil {
+		logrus.Error(err)
+		return nil
+	}
+	return nil
+}
+
+func (a *ArticleModel) AfterDelete(tx *gorm.DB) (err error) {
+	// 删除之后
+	var textList []TextModel
+	tx.Find(&textList, "article_id = ?", a.ID)
+	if len(textList) > 0 {
+		logrus.Infof("删除全文记录 %d", len(textList))
+		tx.Delete(&textList)
+	}
+	return nil
+}
+
+func (a *ArticleModel) AfterUpdate(tx *gorm.DB) (err error) {
+	// 正文发生了变化，才做转换
+	a.AfterDelete(tx)
+	a.AfterCreate(tx)
+	return nil
 }

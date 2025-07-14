@@ -14,5 +14,6 @@ func EsIndex() {
 	}
 	article := model.ArticleModel{}
 	es_service.CreateIndexV2(article.Index(), article.Mapping())
-
+	text := model.TextModel{}
+	es_service.CreateIndexV2(text.Index(), text.Mapping())
 }
