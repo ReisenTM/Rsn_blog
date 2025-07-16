@@ -72,11 +72,11 @@ qiniu:
   size: 0
   expiry: 0
 ai:
-  enable: false
-  secretKey: ""
-  nickname: ""
+  enable: true
+  secretKey: "sk-c616351b2e194417b07b3b870d775e0d"
+  nickname: "铃仙"
   avatar: ""
-  abstract: "Hello，我是你的AI小管家"
+  abstract: "Hello，我是你的AI小助手"
 qq:
   appID: ""
   appKey: ""

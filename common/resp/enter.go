@@ -28,8 +28,8 @@ const (
 
 type Response struct {
 	Code Code   `json:"code"`
-	Msg  string `json:"msg"`
 	Data any    `json:"data"`
+	Msg  string `json:"msg"`
 }
 
 func (r *Response) Json(c *gin.Context) {
@@ -45,14 +45,14 @@ func OKWithMsg(msg string, c *gin.Context) {
 	response.Json(c)
 }
 func OkWithData(data any, c *gin.Context) {
-	resp := Response{SuccessCode, "成功", data}
+	resp := Response{SuccessCode, data, "成功"}
 	resp.Json(c)
 }
 func OkWithList(list any, count int, c *gin.Context) {
-	resp := Response{SuccessCode, "成功", map[string]any{
+	resp := Response{SuccessCode, map[string]any{
 		"list":  list,
 		"count": count,
-	}}
+	}, "成功"}
 	resp.Json(c)
 }
 func FailWithCode(code Code, c *gin.Context) {

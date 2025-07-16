@@ -1,6 +1,7 @@
 package api
 
 import (
+	"blogX_server/api/ai_api"
 	"blogX_server/api/article_api"
 	"blogX_server/api/banner_api"
 	"blogX_server/api/captcha_api"
@@ -30,6 +31,7 @@ type Api struct {
 	FocusApi              focus_api.FocusApi
 	ChatApi               chat_api.ChatApi
 	SearchApi             search_api.SearchApi
+	AIApi                 ai_api.AIApi
 }
 
 // App 实例化 以供外部调用Api

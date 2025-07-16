@@ -24,7 +24,7 @@ func SendWsMsg(onLineMap map[uint]map[string]*websocket.Conn, userID uint, data 
 	if !ok {
 		return
 	}
-	byteData, _ := json.Marshal(Response{SuccessCode, "成功", data})
+	byteData, _ := json.Marshal(Response{SuccessCode, data, "成功"})
 	for _, conn := range addrMap {
 		conn.WriteMessage(websocket.TextMessage, byteData)
 	}
