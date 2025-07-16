@@ -104,7 +104,7 @@ func Chat(content string) (msg string, err error) {
 	return
 }
 
-// DeepSeek源
+// DeepSeekUrl DeepSeek源
 const DeepSeekUrl = "https://api.deepseek.com/chat/completions"
 
 func DSRequest(r Request) (res *http.Response, err error) {
