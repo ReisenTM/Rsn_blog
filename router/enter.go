@@ -16,8 +16,8 @@ func Run() {
 	r.Static("/uploads", "uploads")
 	//创建路由组
 	nr := r.Group("/api")
-	//使用中间件
-	nr.Use(middleware.LogMiddleWare)
+	//使用全局中间件
+	nr.Use(middleware.LogMiddleWare).Use(middleware.Cors())
 
 	SiteRouter(nr)
 	LogRouter(nr)
@@ -33,6 +33,7 @@ func Run() {
 	ChatRouter(nr)
 	SearchRouter(nr)
 	AIRouter(nr)
+	DataRouter(nr)
 	//启动路由监听
 	addr := global.Config.System.Addr()
 	err := r.Run(addr)

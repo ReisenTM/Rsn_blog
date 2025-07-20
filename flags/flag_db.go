@@ -33,7 +33,8 @@ func FlagDB() {
 		&model.UserFocusModel{},              //好友关注表
 		&model.ChatModel{},                   //聊天信息表
 		&model.UserChatActionModel{},         //聊天行为表
-		&model.TextModel{},                   //正文表
+		&model.TextModel{},                   //正文搜素表
+		&model.SiteFlowModel{},               //网站流量表
 	)
 	if err != nil {
 		logrus.Errorf("自动迁移失败 %s", err)

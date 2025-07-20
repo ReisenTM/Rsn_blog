@@ -7,6 +7,7 @@ import (
 	"blogX_server/api/captcha_api"
 	"blogX_server/api/chat_api"
 	"blogX_server/api/comment_api"
+	"blogX_server/api/data_api"
 	"blogX_server/api/focus_api"
 	"blogX_server/api/global_notification_api"
 	"blogX_server/api/image_api"
@@ -32,6 +33,7 @@ type Api struct {
 	ChatApi               chat_api.ChatApi
 	SearchApi             search_api.SearchApi
 	AIApi                 ai_api.AIApi
+	DataApi               data_api.DataApi
 }
 
 // App 实例化 以供外部调用Api
