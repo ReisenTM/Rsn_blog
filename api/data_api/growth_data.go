@@ -12,7 +12,7 @@ import (
 )
 
 type GrowthDataRequest struct {
-	Type int8 `form:"type" binding:"required,oneof=1 2 3"`
+	Type int8 `form:"type" binding:"required,oneof=1 2 3"` //1 流量 2 文章 3 用户
 }
 
 type GrowthDataResponse struct {
@@ -26,6 +26,7 @@ type Table struct {
 	Count int    `gorm:"column:count"`
 }
 
+// GrowthDataView 七天增长数据
 func (DataApi) GrowthDataView(c *gin.Context) {
 	cr := middleware.GetBind[GrowthDataRequest](c)
 
@@ -35,6 +36,7 @@ func (DataApi) GrowthDataView(c *gin.Context) {
 
 	switch cr.Type {
 	case 1:
+		//流量增长
 		global.DB.Model(model.SiteFlowModel{}).Where("created_at >= ? and created_at <= ?",
 			before7.Format("2006-01-02")+" 00:00:00",
 			now.Format("2006-01-02 15:04:05"),
@@ -42,6 +44,7 @@ func (DataApi) GrowthDataView(c *gin.Context) {
 			Select("date(created_at) as date", "sum(count) as count").
 			Group("date").Scan(&dataList)
 	case 2:
+		//发布文章增长
 		global.DB.Model(model.ArticleModel{}).Where("created_at >= ? and created_at <= ? and status = ?",
 			before7.Format("2006-01-02")+" 00:00:00",
 			now.Format("2006-01-02 15:04:05"),
@@ -49,6 +52,7 @@ func (DataApi) GrowthDataView(c *gin.Context) {
 			Select("date(created_at) as date", "count(id) as count").
 			Group("date").Scan(&dataList)
 	case 3:
+		//用户量增长
 		global.DB.Model(model.UserModel{}).Where("created_at >= ? and created_at <= ?",
 			before7.Format("2006-01-02")+" 00:00:00",
 			now.Format("2006-01-02 15:04:05"),

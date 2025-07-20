@@ -55,6 +55,7 @@ func RedisBlackList(token string, value BanType) {
 		return
 	}
 	//得到过期时间
+	//在现在到token过期这段时间设置黑名单
 	timeLast := claims.ExpiresAt - time.Now().Unix()
 	_, err = global.Redis.Set(context.Background(), fmtedToken, value.String(), time.Duration(timeLast)*time.Second).Result()
 	if err != nil {

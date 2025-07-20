@@ -22,5 +22,5 @@ func UserRouter(r *gin.RouterGroup) {
 	r.PUT("user", middleware.AuthMiddleware, app.UserInfoUpdateView)
 	r.PUT("user/admin", middleware.AdminMiddleware, app.AdminUserInfoUpdateView)
 	r.POST("user/article/top", middleware.AuthMiddleware, middleware.BindJsonMiddleware[user_api.UserArticleTopRequest], app.UserArticleTopView)
-
+	r.DELETE("user/logout", middleware.AuthMiddleware, app.LogoutView)
 }
