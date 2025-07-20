@@ -6,6 +6,7 @@ import (
 	"blogX_server/core"
 	"blogX_server/global"
 	"blogX_server/middleware"
+	"blogX_server/service/redis_service/redis_site"
 	"errors"
 	"fmt"
 	"github.com/PuerkitoBio/goquery"
@@ -21,6 +22,18 @@ type SiteInfoRequest struct {
 	Name string `uri:"name"`
 }
 
+type QiNiu struct {
+	Enable bool `json:"enable"`
+}
+type Ai struct {
+	Enable bool `json:"enable"`
+}
+type SiteInfoResponse struct {
+	QiNiu QiNiu `json:"qi_niu"`
+	Ai    Ai    `json:"ai"`
+	conf.Site
+}
+
 // SiteInfoView 站点视图管理
 func (sa *SiteApi) SiteInfoView(c *gin.Context) {
 	var req SiteInfoRequest
@@ -31,7 +44,16 @@ func (sa *SiteApi) SiteInfoView(c *gin.Context) {
 	}
 	if req.Name == "site" {
 		global.Config.Site.About.Version = global.Version
-		resp.OkWithData(global.Config.Site, c)
+		redis_site.SetFlow()
+		resp.OkWithData(SiteInfoResponse{
+			Site: global.Config.Site,
+			QiNiu: QiNiu{
+				Enable: global.Config.QiNiu.Enable,
+			},
+			Ai: Ai{
+				Enable: global.Config.AI.Enable,
+			},
+		}, c)
 		return
 	}
 
@@ -70,6 +92,23 @@ func (sa *SiteApi) SiteInfoView(c *gin.Context) {
 
 func (sa *SiteApi) SiteInfoQQView(c *gin.Context) {
 	resp.OkWithData(global.Config.QQ.Url(), c)
+}
+
+type AIResponse struct {
+	Enable   bool   `json:"enable"`
+	Nickname string `json:"nickname"`
+	Avatar   string `json:"avatar"`
+	Abstract string `json:"abstract"`
+}
+
+// SiteInfoAIView AI配置
+func (SiteApi) SiteInfoAIView(c *gin.Context) {
+	resp.OkWithData(AIResponse{
+		Enable:   global.Config.AI.Enable,
+		Nickname: global.Config.AI.Nickname,
+		Avatar:   global.Config.AI.Avatar,
+		Abstract: global.Config.AI.Abstract,
+	}, c)
 }
 
 type SiteUpdateRequest struct {

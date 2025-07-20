@@ -13,11 +13,12 @@ import (
 
 type ArticleDetailResponse struct {
 	model.ArticleModel
-	Username   string `json:"username"`   //用户名
-	Nickname   string `json:"nickname"`   //用户昵称
-	UserAvatar string `json:"avatar"`     //用户头像
-	IsFavor    bool   `json:"is_favor"`   //是否点赞
-	IsCollcet  bool   `json:"is_collcet"` //是否收藏
+	Username      string  `json:"username"`   //用户名
+	Nickname      string  `json:"nickname"`   //用户昵称
+	UserAvatar    string  `json:"avatar"`     //用户头像
+	IsFavor       bool    `json:"is_favor"`   //是否点赞
+	IsCollcet     bool    `json:"is_collcet"` //是否收藏
+	CategoryTitle *string `json:"category_title"`
 }
 
 func (ArticleApi) ArticleDetailView(c *gin.Context) {
@@ -28,7 +29,7 @@ func (ArticleApi) ArticleDetailView(c *gin.Context) {
 
 	// 管理员，能看到全部的文章
 	var article model.ArticleModel
-	err := global.DB.Preload("UserModel").Take(&article, cr.ID).Error
+	err := global.DB.Preload("UserModel").Preload("CategoryModel").Take(&article, cr.ID).Error
 	if err != nil {
 		resp.FailWithMsg("不存在的文章", c)
 		return
@@ -81,6 +82,8 @@ func (ArticleApi) ArticleDetailView(c *gin.Context) {
 	res.ViewsCount = viewCount
 	res.CommentCount = commentCount
 	res.CollectCount = collectCount
-	
+	if article.CategoryModel != nil {
+		res.CategoryTitle = &article.CategoryModel.Title
+	}
 	resp.OkWithData(res, c)
 }

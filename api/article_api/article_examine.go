@@ -13,8 +13,8 @@ import (
 
 type ArticleExamineRequest struct {
 	ArticleID uint               `json:"article_id" binding:"required"`
-	Status    enum.ArticleStatus `json:"status" binding:"required,oneof=3 4"`
-	Msg       string             `json:"msg"` //反馈信息
+	Status    enum.ArticleStatus `json:"status" binding:"required,oneof=3 4"` //3通过 4 未通过
+	Msg       string             `json:"msg"`                                 //反馈信息
 }
 
 func (ArticleApi) ArticleExamineView(c *gin.Context) {

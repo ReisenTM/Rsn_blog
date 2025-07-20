@@ -31,6 +31,12 @@ func LogMiddleWare(c *gin.Context) {
 	log := log_service.NewActionLog(c)
 	log.SetReqBody(c)
 	c.Set("log", log)
+	if c.Request.URL.Path == "/api/ai/article" {
+		//因为流式输出会设置请求头
+		c.Next()
+		log.MiddlewareSave()
+		return
+	}
 	//重写Writer方法,保存返回体
 	res := &ResponseWriter{
 		ResponseWriter: c.Writer,

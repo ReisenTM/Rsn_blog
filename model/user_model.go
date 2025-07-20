@@ -2,8 +2,10 @@ package model
 
 import (
 	"blogX_server/model/enum"
+	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 	"math"
+	"reflect"
 	"time"
 )
 
@@ -22,6 +24,8 @@ type UserModel struct {
 	UserConfModel *UserConfModel          `gorm:"foreignKey:UserID"  json:"-"`
 	IP            string                  `json:"ip"`
 	Region        string                  `json:"region"` //ip归属地
+	ArticleList   []ArticleModel          `gorm:"foreignKey:UserID" json:"-"`
+	LoginList     []UserLoginModel        `gorm:"foreignKey:UserID" json:"-"`
 }
 
 // AfterCreate 随userModel一起创建
@@ -29,6 +33,38 @@ func (u *UserModel) AfterCreate(tx *gorm.DB) error {
 	err := tx.Create(&UserConfModel{UserID: u.ID}).Error
 	err = tx.Create(&UserMessageConfModel{UserID: u.ID, OpenCommentMessage: true, OpenFavorMessage: true, OpenPrivateChat: true}).Error
 	return err
+}
+func (u *UserModel) BeforeDelete(tx *gorm.DB) (err error) {
+	var list = []any{
+		UserArticleFavorModel{},
+		ArticleModel{},
+		CategoryModel{},
+		CollectModel{},
+		CommentModel{},
+		UserCommentFavorModel{},
+		LogModel{},
+		UserArticleCollectModel{},
+		UserArticleHistoryModel{},
+		UserChatActionModel{},
+		UserFocusModel{},
+		UserGlobalNotificationModel{},
+		UserLoginModel{},
+		UserTopArticleModel{},
+	}
+	for _, model := range list {
+		count := tx.Delete(&model, "user_id = ?", u.ID).RowsAffected
+		logrus.Infof("删除 %s 成功%d条", reflect.TypeOf(model).Name(), count)
+	}
+
+	var chatList []ChatModel
+	tx.Find(&chatList, "send_user_id = ? or rev_user_id = ?", u.ID, u.ID).Delete(&chatList)
+	logrus.Infof("删除关联对话 %d条", len(chatList))
+
+	var messageList []MessageModel
+	tx.Find(&messageList, "rev_user_id = ?", u.ID).Delete(&messageList)
+	logrus.Infof("删除关联消息 %d条", len(messageList))
+
+	return nil
 }
 
 // CodeAge 计算码龄
@@ -47,5 +83,5 @@ type UserConfModel struct {
 	OpenFans       bool       `json:"open_fans"`                                      //公开粉丝
 	OpenFollows    bool       `json:"open_follows"`                                   //公开关注
 	HomeStyle      uint       `json:"home_style"`                                     //主页样式id
-	ViewCount      int        `json:"lookCount"`                                      // 主页的访问次数
+	ViewCount      int        `json:"views_count"`                                    // 主页的访问次数
 }

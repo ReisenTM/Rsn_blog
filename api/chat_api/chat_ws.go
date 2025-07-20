@@ -59,7 +59,7 @@ func (ChatApi) ChatView(c *gin.Context) {
 	addr := conn.RemoteAddr().String()
 	addrMap, ok := OnlineMap[userID]
 	if !ok {
-		//如果对方不在在线表里就添加,表示上线
+		//上线
 		OnlineMap[userID] = map[string]*websocket.Conn{
 			addr: conn,
 		}
