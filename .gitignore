@@ -5,3 +5,4 @@ main
 logs/*
 uploads/*
 test
+settings-dev.yaml

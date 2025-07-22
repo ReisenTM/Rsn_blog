@@ -24,7 +24,7 @@ type AuthRecommendResponse struct {
 	UserProfile  string `json:"user_profile"`
 }
 
-// AuthRecommendView 推荐
+// AuthRecommendView 作者推荐
 func (ArticleApi) AuthRecommendView(c *gin.Context) {
 	cr := middleware.GetBind[AuthRecommendRequest](c)
 	var userIDlist []uint
@@ -57,12 +57,12 @@ func (ArticleApi) AuthRecommendView(c *gin.Context) {
 	var userList []model.UserModel
 	global.DB.Find(&userList, "id in ?", userIDlist)
 	var list = make([]AuthRecommendResponse, 0)
-	for _, model := range userList {
+	for _, m := range userList {
 		list = append(list, AuthRecommendResponse{
-			UserID:       model.ID,
-			UserNickname: model.Nickname,
-			UserAvatar:   model.Avatar,
-			UserProfile:  model.Profile,
+			UserID:       m.ID,
+			UserNickname: m.Nickname,
+			UserAvatar:   m.Avatar,
+			UserProfile:  m.Profile,
 		})
 	}
 	resp.OkWithList(list, userCount, c)
