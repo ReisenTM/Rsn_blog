@@ -1,5 +1,4 @@
-# blogX_server
-> 第**十**代博客
+# blog_server
 
 数据库:主从配置，读写分离
 搜索：es
