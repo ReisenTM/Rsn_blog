@@ -20,7 +20,7 @@ type ArticleListRequest struct {
 	Type       int8               `form:"type" binding:"required,oneof=1 2 3"` //用户查别人，查自己，管理员查别人
 	CategoryID *uint              `form:"category_id"`
 	Status     enum.ArticleStatus `form:"status"`
-	CollectID  uint               `form:"collect"`
+	CollectID  int                `form:"collect_id"`
 }
 type ArticleListResponse struct {
 	model.ArticleModel
@@ -89,6 +89,23 @@ func (ArticleApi) ArticleListView(c *gin.Context) {
 		"comment_count asc":  true,
 		"collect_count asc":  true,
 	}
+	query := global.DB.Where("")
+
+	if cr.CollectID != 0 {
+		var articleIDList []uint
+		if cr.CollectID != -1 {
+			global.DB.Model(model.UserArticleCollectModel{}).Where("collect_id = ?", cr.CollectID).Select("article_id").Scan(&articleIDList)
+		} else {
+			// 查这个人的所有收藏夹id
+			if cr.UserID == 0 {
+				resp.FailWithMsg("查所有的收藏文章，需要传用户id", c)
+				return
+			}
+			global.DB.Model(model.UserArticleCollectModel{}).Where("user_id = ?", cr.UserID).Select("article_id").Scan(&articleIDList)
+		}
+
+		query.Where("id in ?", articleIDList)
+	}
 	if cr.Order != "" {
 		_, ok := OrderMap[cr.Order]
 		if !ok {
@@ -121,6 +138,7 @@ func (ArticleApi) ArticleListView(c *gin.Context) {
 		PageInfo:     cr.PageInfo,
 		Likes:        []string{"title"},
 		DefaultOrder: "created_at desc",
+		Where:        query,
 		Preloads:     []string{"UserModel", "CategoryModel"},
 	}
 	//如果存在置顶文章

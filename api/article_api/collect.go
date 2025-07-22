@@ -71,14 +71,16 @@ func (ArticleApi) CollectCreateView(c *gin.Context) {
 
 type CollectListRequest struct {
 	common.PageInfo
-	UserID uint `form:"user_id"`
-	Type   int8 `form:"type" binding:"required,oneof=1 2 3"` // 1 查自己 2 查别人  3 后台
+	UserID    uint `form:"user_id"`
+	Type      int8 `form:"type" binding:"required,oneof=1 2 3"` // 1 查自己 2 查别人  3 后台
+	ArticleID uint `form:"article_id"`
 }
 type CollectListResponse struct {
 	model.CollectModel
 	ArticleCount int    `json:"article_count"`
 	Nickname     string `json:"nickname,omitempty"`
 	Avatar       string `json:"avatar,omitempty"`
+	ArticleUse   bool   `json:"articleUse,omitempty"` //是否已被收藏
 }
 
 func (ArticleApi) CollectListView(c *gin.Context) {
@@ -127,13 +129,20 @@ func (ArticleApi) CollectListView(c *gin.Context) {
 		Preloads: preload,
 	})
 	var list = make([]CollectListResponse, 0)
-	for _, v := range _list {
-		list = append(list, CollectListResponse{
-			CollectModel: v,
-			ArticleCount: len(v.ArticleList), //每个分类对应的文章数量，不是分类数
-			Nickname:     v.UserModel.Nickname,
-			Avatar:       v.UserModel.Avatar,
-		})
+	for _, i2 := range _list {
+		item := CollectListResponse{
+			CollectModel: i2,
+			ArticleCount: len(i2.ArticleList),
+			Nickname:     i2.UserModel.Nickname,
+			Avatar:       i2.UserModel.Avatar,
+		}
+		for _, model := range i2.ArticleList {
+			if model.ArticleID == cr.ArticleID {
+				item.ArticleUse = true
+				break
+			}
+		}
+		list = append(list, item)
 	}
 	resp.OkWithList(list, count, c)
 }

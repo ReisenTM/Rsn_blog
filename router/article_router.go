@@ -17,6 +17,8 @@ func ArticleRouter(r *gin.RouterGroup) {
 	r.GET("article/:id", middleware.BindUriMiddleware[model.IDRequest], app.ArticleDetailView)
 	r.DELETE("article/:id", middleware.AuthMiddleware, middleware.BindUriMiddleware[model.IDRequest], app.ArticleRemoveUserView)
 	r.DELETE("article", middleware.AdminMiddleware, middleware.BindJsonMiddleware[model.RemoveRequest], app.ArticleRemoveAdminView)
+	//个性化推荐
+	r.GET("article/auth_recommend", middleware.BindQueryMiddleware[article_api.AuthRecommendRequest], app.AuthRecommendView)
 	//审核
 	r.POST("article/examine", middleware.AdminMiddleware, middleware.BindJsonMiddleware[article_api.ArticleExamineRequest], app.ArticleExamineView)
 	//点赞
