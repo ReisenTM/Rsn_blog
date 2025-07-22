@@ -1,4 +1,4 @@
-# blog_server From fengfengzhidao
+# blog_server
 
 数据库:主从配置，读写分离
 搜索：es
