@@ -3,6 +3,7 @@ package comment_service
 import (
 	"blogX_server/global"
 	"blogX_server/model"
+	"blogX_server/model/enum/relationship_enum"
 	"blogX_server/service/redis_service/redis_comment"
 	"time"
 )
@@ -50,17 +51,19 @@ func GetCommentTreeV2(id uint) (mod *model.CommentModel) {
 }
 
 type CommentResponse struct {
-	ID         uint               `json:"id"`
-	CreatedAt  time.Time          `json:"createdAt"`
-	Nickname   string             `json:"nickname"`
-	Avatar     string             `json:"avatar"`
-	Content    string             `json:"content"`
-	UserID     uint               `json:"user_id"`
-	ArticleID  uint               `json:"article_id"`
-	ParentID   *uint              `json:"parent_id"`
-	SubComment []*CommentResponse `json:"sub_comment"`
-	FavorCount int                `json:"favor_count"` //点赞数
-	ReplyCount int                `json:"reply_count"` //回复数
+	ID         uint                       `json:"id"`
+	CreatedAt  time.Time                  `json:"createdAt"`
+	Nickname   string                     `json:"nickname"`
+	Avatar     string                     `json:"avatar"`
+	Content    string                     `json:"content"`
+	UserID     uint                       `json:"user_id"`
+	ArticleID  uint                       `json:"article_id"`
+	ParentID   *uint                      `json:"parent_id"`
+	SubComment []*CommentResponse         `json:"sub_comment"`
+	FavorCount int                        `json:"favor_count"` //点赞数
+	ReplyCount int                        `json:"reply_count"` //回复数
+	IsFavor    bool                       `json:"is_favor"`
+	Relation   relationship_enum.Relation `json:"relation"`
 }
 
 func GetCommentTreeV3(id uint) (res *CommentResponse) {
@@ -88,12 +91,12 @@ func GetCommentTreeV3(id uint) (res *CommentResponse) {
 	return
 }
 
-func GetCommentTreeV4(id uint) (res *CommentResponse) {
-	return getCommentTreeV4(id, 1)
+func GetCommentTreeV4(id uint, userRelationMap map[uint]relationship_enum.Relation, userDiggMap map[uint]bool) (res *CommentResponse) {
+	return getCommentTreeV4(id, 1, userRelationMap, userDiggMap)
 }
 
 //line 层级
-func getCommentTreeV4(id uint, line int) (res *CommentResponse) {
+func getCommentTreeV4(id uint, line int, userRelationMap map[uint]relationship_enum.Relation, userFavorMap map[uint]bool) (res *CommentResponse) {
 	mod := &model.CommentModel{
 		Model: model.Model{ID: id},
 	}
@@ -111,12 +114,14 @@ func getCommentTreeV4(id uint, line int) (res *CommentResponse) {
 		FavorCount: mod.FavorCount + redis_comment.GetCacheFavor(mod.ID),
 		ReplyCount: mod.ReplyCount + redis_comment.GetCacheReply(mod.ID),
 		SubComment: make([]*CommentResponse, 0),
+		Relation:   userRelationMap[mod.ID],
+		IsFavor:    userFavorMap[mod.UserID],
 	}
 	if line >= global.Config.Site.Article.CommentLine {
 		return
 	}
 	for _, commentModel := range mod.SubComment {
-		res.SubComment = append(res.SubComment, getCommentTreeV4(commentModel.ID, line+1)) //递归一次层级+1
+		res.SubComment = append(res.SubComment, getCommentTreeV4(commentModel.ID, line+1, userRelationMap, userFavorMap)) //递归一次层级+1
 	}
 	return
 }
