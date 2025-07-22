@@ -1,0 +1,129 @@
+system:
+  ip: ""
+  port: 8080
+  env: dev
+  gin_mode: release
+log:
+  app: blogx_server
+  dir: logs
+db:
+- user: root
+  password:
+  host:
+  port: 3306
+  database:
+  debug: false
+  source:
+- user: root
+  password:
+  host:
+  port: 3307
+  database:
+  debug: false
+  source:
+jwt:
+  expire: 240
+  secret:
+  issuer:
+redis:
+  addr:
+  password:
+  db: 2
+site:
+  siteInfo:
+    title: ""
+    enTitle: ""
+    slogan: ""
+    logo: ""
+    beian: ""
+    mode: 1
+  project:
+    title: ""
+    icon: ""
+    webPath: ""
+  seo:
+    keywords: ""
+    description: ""
+  about:
+    siteDate: ""
+    qq: ""
+    wechat: ""
+    gitee: ""
+    bilibili: ""
+    github: ""
+  login:
+    qqLogin: false
+    usernamePwdLogin: true
+    emailLogin: true
+    captcha: false
+  indexRight:
+    list: []
+  article:
+    noExamine: false
+    commentLine: 4
+qiniu:
+  enable: false
+  accessKey:
+  secretKey:
+  bucket:
+  uri: ""
+  region: ""
+  prefix: ""
+  size: 0
+  expiry: 0
+ai:
+  enable: true
+  secretKey:
+  nickname: " "
+  avatar: ""
+  abstract: "Hello，我是 ,你的AI小助手"
+qq:
+  appID: ""
+  appKey: ""
+  redirect: ""
+email:
+  domain:
+  port: 587
+  sendEmail:
+  authCode:
+  sendNickname:
+  ssl: false
+  tls: false
+upload:
+  size: 3
+  whiteList:
+  - jpg
+  - jpeg
+  - png
+  - webp
+  - gif
+  uploadDir: images001
+es:
+  url:
+  username: ""
+  password: ""
+  is_https: false
+  enable: true
+river:
+  enable: true
+  server_id: 1001
+  flavor: mysql
+  data_dir: ./var
+  source:
+  - schema:
+    tables:
+    - article_models
+    - text_models
+  rule:
+  - schema: blogx
+    table: article_models
+    index: article_index
+    type: _doc
+    field:
+      tags: tags,list
+  - schema:
+    table: text_models
+    index: text_indedx
+    type: _doc
+    field: { }
+  bulk_size: 128
